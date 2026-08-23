@@ -27,10 +27,10 @@ MORSE_CODE_DICT = {
 class Py_testing:
     def main():
         # Execute terminal command to capture target CAN bus ID entries
-        std_out = subprocess.run("cat can_bus.log | grep '3F5#'", shell=True, capture_output=True, text=True)
+        STD_OUT = subprocess.run("cat can_bus.log | grep '3F5#'", shell=True, capture_output=True, text=True)
 
         # Extract only the hexadecimal payload from each CAN frame
-        lines = std_out.stdout.strip().split('\n')
+        lines = STD_OUT.stdout.strip().split('\n')
         content = []
         for line in lines:
             if '#' in line:
@@ -38,8 +38,8 @@ class Py_testing:
                 content.append(payload)
 
         # Frame identifiers representing silence vs active pulse
-        ignore_str = '0000C838820C0000'
-        jump_str = '0000C81892040000'
+        IGNOTE_STR = '0000C838820C0000'
+        JUMP_STR = '0000C81892040000'
 
         tokens = []
         current_type = None
@@ -47,13 +47,13 @@ class Py_testing:
 
         # Group continuous consecutive sequences into tokens
         for line in content:
-            if line == jump_str:
+            if line == JUMP_STR:
                 if current_type == 'jump': current_count += 1
                 else:
                     if current_type is not None: tokens.append((current_type, current_count))
                     current_type = 'jump'
                     current_count = 1
-            elif line == ignore_str:
+            elif line == IGNOTE_STR:
                 if current_type == 'ignore': current_count += 1
                 else:
                     if current_type is not None: tokens.append((current_type, current_count))

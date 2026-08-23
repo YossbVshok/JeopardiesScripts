@@ -27,14 +27,14 @@ tags = '''
 class Py_testing:
     def main():
         # Offsets recovered using xxd command
-        offset_inicio=0x9D20
-        offset_fin=0x9DC0
+        OFFSET_START=0x9D20
+        OFFSET_END=0x9DC0
 
         resultado_bits = []
 
         with open('SaveGame1', 'rb') as f:
-            f.seek(offset_inicio)
-            bytes_data = f.read(offset_fin - offset_inicio)
+            f.seek(OFFSET_START)
+            bytes_data = f.read(OFFSET_END - OFFSET_START)
 
             for b in bytes_data:
                 if b == 0x00: resultado_bits.append('0')

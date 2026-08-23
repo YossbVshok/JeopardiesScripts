@@ -1,4 +1,3 @@
-import subprocess
 import requests
 import websockets
 import urllib.parse
@@ -14,7 +13,7 @@ makes you wonder if you can view all the monsters?
 
 comments = '''
     Connects to the IT web terminal via WebSocket using extracted credentials,
-    leverages sudo privileges on /usr/bin/mail with shell escapes, and retrieves the flag.
+    leverages sudo privileges on /usr/bin/mail with shell escapes, and retrieves the flag
 '''
 
 tags = '''
@@ -49,8 +48,7 @@ class Py_testing:
                             # Decode incoming raw byte streams into human-readable text
                             if isinstance(message, bytes): message = message.decode('utf-8', errors='ignore')
                             print(message, end='', flush=True)
-                    except asyncio.CancelledError:
-                        pass
+                    except asyncio.CancelledError: pass
 
                 # Launch the background receiver task in the asyncio event loop
                 recv_task = asyncio.create_task(receive_messages())
@@ -62,9 +60,9 @@ class Py_testing:
 
                 recv_task.cancel()
 
-                # flag => brunner{1tguy_t4k35_m41l_s3cur1ty_v3ry_53r10u5}
-
         asyncio.run(run_terminal())
+
+    # flag => brunner{1tguy_t4k35_m41l_s3cur1ty_v3ry_53r10u5}
 
 if __name__ == '__main__':
     Py_testing.main()

@@ -6,8 +6,8 @@ CleanDesk
 Difficulty: Easy-Medium
 
 A colleague left Brunnerne A/S on a Friday, and the handover was shorter than anyone would have liked
-IT imaged her phone before wiping it, which is policy, and filed the image on the shared drive, which is not
-Every app on that device encrypts its data at rest. IT confirmed this in the offboarding ticket and closed it
+IT imaged her phone before wiping it, which is policy, and filed the image on the shared drive,
+which is not. Every app on that device encrypts its data at rest. IT confirmed this in the offboarding ticket and closed it
 '''
 
 comments = '''
@@ -21,8 +21,7 @@ tags = '''
 
 class Py_testing:
     def main():
-        key_b64 = "6mqMbv76RDT1G7yib5XrsS5DolJ+pPfZAGacZN3cTsc="
-        key = base64.b64decode(key_b64)
+        KEY = base64.b64decode("6mqMbv76RDT1G7yib5XrsS5DolJ+pPfZAGacZN3cTsc=")
 
         def decrypt_gcm_record(b64_data):
             raw = base64.b64decode(b64_data.strip())
@@ -32,21 +31,21 @@ class Py_testing:
             # <string name="sealed_layout">nonce[12] || ciphertext || tag[16]</string>
             # <string name="sealed_aad">none</string>
             
-            nonce = raw[:12]
-            tag = raw[-16:]
-            ciphertext = raw[12:-16]
+            NONCE = raw[:12]
+            TAG = raw[-16:]
+            CT = raw[12:-16]
 
-            cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+            ciphertext = AES.new(KEY, AES.MODE_GCM, nonce=NONCE)
 
             try:
-                return cipher.decrypt_and_verify(ciphertext, tag)
+                return ciphertext.decrypt_and_verify(CT, TAG)
             except Exception as e:
                 # Retry with literal b"none" as AAD
-                cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
-                cipher.update(b"none")
-                return cipher.decrypt_and_verify(ciphertext, tag)
+                ciphertext = AES.new(KEY, AES.MODE_GCM, nonce=NONCE)
+                ciphertext.update(b"none")
+                return ciphertext.decrypt_and_verify(CT, TAG)
 
-        # The ct data is inside notes.db
+        # The ciphertext data is inside notes.db
         with open("notes_db_content.txt", "r") as seal_file:
             data = seal_file.readlines()
 

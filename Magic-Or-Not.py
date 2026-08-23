@@ -36,10 +36,10 @@ class Py_testing:
 
     def main(self):
         # Known magic headers for standard image files
-        image_extensions = ['*.png', '*.jpg', '*.jpeg', '*.gif', '*.bmp']
+        IMG_EXT = ['*.png', '*.jpg', '*.jpeg', '*.gif', '*.bmp']
         image_files = []
 
-        for ext in image_extensions: image_files.extend(glob.glob(ext))
+        for ext in IMG_EXT: image_files.extend(glob.glob(ext))
 
         image_files = [f for f in image_files if not f.startswith('recovered_')]
 
@@ -49,8 +49,8 @@ class Py_testing:
 
             if not raw_bytes: continue
 
-            key = self.derive_key(raw_bytes, img_file)
-            decrypted = self.decode(raw_bytes, key)
+            KEY = self.derive_key(raw_bytes, img_file)
+            decrypted = self.decode(raw_bytes, KEY)
 
             out_filename = f"recovered_{img_file}"
             with open(out_filename, 'wb') as f:

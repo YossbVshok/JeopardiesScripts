@@ -7,8 +7,8 @@ Difficulty: Easy
 I got this email about a new company discount!
 Seems like an amazing perk - check it out yourself!
 
-Note: This challenge might trigger your antivirus. Although "defanged" and completely
-safe to run, please always treat malware/unknown challenges like this as real and use a
+Note: This challenge might trigger your antivirus. Although "defanged" and completely safe
+to run, please always treat malware/unknown challenges like this as real and use a
 sandbox such as a VM or Windows Sandbox
 '''
 
@@ -21,6 +21,7 @@ comments = '''
 tags = '''
     #hta #powershell #amsi-bypass #malware-analysis #dropper #wget
 '''
+
 class Py_testing:
     def main():
         subprocess.run('cat Brunnerne_Employee_Discount_Newsletter_2026.hta', shell=True)
