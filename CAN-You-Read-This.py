@@ -26,6 +26,7 @@ MORSE_CODE_DICT = {
 
 class Py_testing:
     def main():
+        subprocess.run('asc2log -I can-recording-model-3.asc -O can_bus.log', shell=True)
         # Execute terminal command to capture target CAN bus ID entries
         STD_OUT = subprocess.run("cat can_bus.log | grep '3F5#'", shell=True, capture_output=True, text=True)
 
