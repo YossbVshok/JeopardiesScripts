@@ -98,5 +98,4 @@ class Py_testing:
         # Flag => brunner{th3_dr4ft_sh1pp3d_w1th_th3_4ppr0v4l}
 
 if __name__ == '__main__':
-    app = Py_testing()
-    app.main()
+    Py_testing.main()
