@@ -24,11 +24,11 @@ class Py_testing:
     def main():
         # Dump the ecxel libreoffice file that contain the macro
         subprocess.run('python3 volatility3/vol.py --remote-isf-url "https://github.com/Abyss-W4tcher/volatility3-symbols/raw/master/banners/banners.json" -f mem.dump linux.pagecache.InodePages --inode 0x8b9ad7914108 --dump', shell=True)
-        subprocess.run('mv  inode_0x8b9ad7914108.dmp results-from-judges.ods', shell=True)
+        subprocess.run('mv inode_0x8b9ad7914108.dmp results-from-judges.ods', shell=True)
 
         # Dump the /tmp/.gnome-scache file mentioned inside the macro
         subprocess.run('python3 volatility3/vol.py --remote-isf-url "https://github.com/Abyss-W4tcher/volatility3-symbols/raw/master/banners/banners.json" -f mem.dump linux.pagecache.InodePages --inode 0x8b9b42a40670 --dump', shell=True)
-        subprocess.run('mv  inode_0x8b9b42a40670.dmp gnome-scache', shell=True)
+        subprocess.run('mv inode_0x8b9b42a40670.dmp gnome-scache', shell=True)
         os.makedirs('hidden_dlls')
         os.chdir('hidden_dlls')
 
