@@ -59,5 +59,4 @@ class Py_testing:
         # Flag => brunner{ctf2026}
 
 if __name__ == '__main__':
-    app = Py_testing()
-    app.main()
+    Py_testing.main()
